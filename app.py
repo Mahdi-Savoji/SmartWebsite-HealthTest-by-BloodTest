@@ -10,8 +10,11 @@ from flask import (
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from forms import UserForm, LoginForm  # Import the forms
+from forms import UserForm, LoginForm  
+from captcha.image import ImageCaptcha
 import os
+import random
+import string
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -38,7 +41,12 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
+# Generate random CAPTCHA text
+def generate_random_captcha(length=6):
+    return ''.join(random.choice(string.ascii_uppercase) for _ in range(length))
+
 # Routes
+
 @app.route("/")
 def home():
     user = None
@@ -46,11 +54,27 @@ def home():
         user = User.query.get(session["user_id"])
     return render_template("home.html", user=user)
 
+# Generate CAPTCHA image
+image = ImageCaptcha(width=260, height=80)
+
+@app.route("/captcha")
+def captcha():
+    captcha_text = generate_random_captcha()
+    session['captcha'] = captcha_text  # Store in session
+    image_file = os.path.join('static', 'img', 'CAPTCHA.png')
+    image.write(captcha_text, image_file)
+
+    return app.send_static_file('img/CAPTCHA.png')  
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = UserForm()
     if form.validate_on_submit():
+        if form.captcha.data != session.get('captcha'):
+            flash("Invalid CAPTCHA. Please try again.", "danger")
+            session.pop('captcha', None)  # Clear the CAPTCHA after failure
+            return redirect(url_for("register"))
+
         username = form.username.data
         email = form.email.data
         password = form.password.data
@@ -79,8 +103,6 @@ def register():
 
     return render_template("register.html", form=form)
 
-
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -94,10 +116,7 @@ def login():
             session["user_id"] = user.id
             session["username"] = user.username
             
-            # Flash a success message
             flash("Login successful!", "success")
-            
-            # Redirect to home page
             return redirect(url_for("home"))
         else:
             flash("Invalid username or password", "danger")
@@ -110,15 +129,12 @@ def login():
 
     return render_template("login.html", form=form)
 
-
-
 @app.route("/logout")
 def logout():
     session.pop("user_id", None)
     session.pop("username", None)
     flash("You have been logged out.", "success")
     return redirect(url_for("login"))
-
 
 @app.route("/profile")
 def profile():
@@ -129,7 +145,6 @@ def profile():
     user = User.query.get(session["user_id"])
     return render_template("profile.html", user=user)
 
-
 @app.route("/input", methods=["GET", "POST"])
 def input():
     if "user_id" not in session:
@@ -137,7 +152,6 @@ def input():
         return redirect(url_for("login"))
 
     return render_template("input.html")
-
 
 @app.route("/result")
 def result():
@@ -147,16 +161,13 @@ def result():
 
     return render_template("result.html")
 
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
 
-
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template("500.html"), 500
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

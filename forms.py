@@ -18,6 +18,7 @@ class UserForm(FlaskForm):
         DataRequired(),
         Length(min=6, message="Password must be at least 6 characters long.")
     ])
+    captcha = StringField('Captcha', validators=[DataRequired()])
     submit = SubmitField(label='Submit')
 
 class LoginForm(FlaskForm):
