@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-
 </head>
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -19,13 +18,16 @@
     {% endwith %}
 
     <h1>Register</h1>
-    <form method="POST">
+    <form method="POST" action="{{ url_for('register') }}">
         {{ form.hidden_tag() }}
-        {{ form.username.label }} {{ form.username() }}<br>
-        {{ form.email.label }} {{ form.email() }}<br>
-        {{ form.password.label }} {{ form.password() }}<br>
-        {{ form.submit() }}
+        {{ form.username.label }} {{ form.username(size=32) }}<br>
+        {{ form.email.label }} {{ form.email(size=32) }}<br>
+        {{ form.password.label }} {{ form.password(size=32) }}<br>
+        <img src="{{ url_for('captcha') }}" alt="CAPTCHA" /><br>
+        {{ form.captcha.label }} {{ form.captcha(size=32) }}<br>
+        <input type="submit" value="Register">
     </form>
+    
 
     <a href="{{ url_for('login') }}">Already have an account? Login here.</a>
 </body>
