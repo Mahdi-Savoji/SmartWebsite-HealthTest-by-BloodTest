@@ -15,6 +15,7 @@ from captcha.image import ImageCaptcha
 import os
 import random
 import string
+from datetime import datetime
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -27,15 +28,48 @@ db = SQLAlchemy(app)
 
 # User Model for SQLAlchemy
 class User(db.Model):
+    __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
+    result = db.relationship("userResult", backref='author', lazy = True)
 
     def __init__(self, username, email, password):
         self.username = username
         self.email = email
         self.password = generate_password_hash(password)  # Hash the password
+
+
+class userResult(db.Model):
+    __tablename__ = "user_result"
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    id = db.Column(db.Integer, primary_key=True)
+    gender = db.Column(db.String(100), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    bmi = db.Column(db.Integer, nullable=False)
+    chol = db.Column(db.Integer, nullable=False)
+    tg = db.Column(db.Integer, nullable=False)
+    hdl = db.Column(db.Integer, nullable=False)
+    ldl = db.Column(db.Integer, nullable=False)
+    cr = db.Column(db.Integer, nullable=False)
+    bun = db.Column(db.Integer, nullable=False)
+
+    result = db.Column(db.String(100), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable = False)
+
+    def __init__(self, gender,age,bmi,chol,tg,hdl,ldl,cr,bun,result,user_id):
+        self.gender = gender
+        self.age = age
+        self.bmi = bmi
+        self.chol = chol
+        self.tg = tg
+        self.hdl = hdl
+        self.ldl = ldl
+        self.cr = cr
+        self.bun = bun
+        self.result = result
+        self.user_id = user_id
 
 # Create the database tables
 with app.app_context():
