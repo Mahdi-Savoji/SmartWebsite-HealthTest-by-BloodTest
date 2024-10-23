@@ -90,7 +90,7 @@ def home():
     user = None
     if "user_id" in session:
         user = User.query.get(session["user_id"])
-    return render_template("home.html", user=user)
+    return render_template("index.html", user=user)
 
 
 # Generate CAPTCHA image
