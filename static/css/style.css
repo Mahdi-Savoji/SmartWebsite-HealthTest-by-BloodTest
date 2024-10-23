@@ -1,5 +1,5 @@
 
-/* My root Color Start */
+/* My root Color */
 :root {
     --primary: #13C5DD;
     --secondary: #354F8E;
@@ -7,13 +7,15 @@
     --dark: #1D2A4D;
 }
 
-/* Scroll Bars Start */
+/* Selection Color */
+
 ::selection {
     color: #fff;
-    background-color: #7058C0;
+    background-color: #11c5dd;
 }
 
-/* width */
+/* Scroll Bars */
+
 body::-webkit-scrollbar {
     width: 8px;
 }
@@ -22,26 +24,20 @@ body.thin::-webkit-scrollbar {
     width: 2px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
     border-radius: 10px;
     background: #eee;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background: #1B152E;
 }
 
-/* Handle on window-inactive */
 ::-webkit-scrollbar-thumb:window-inactive {
     background: rgba(27, 21, 46, 1);
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #ED3822;
 }
-
-/* Scroll Bars End */
