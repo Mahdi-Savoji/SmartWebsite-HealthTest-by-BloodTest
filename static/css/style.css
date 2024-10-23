@@ -7,6 +7,41 @@
     --dark: #1D2A4D;
 }
 
+/* Our Color */
+
+.text-white {
+    color: #FFFFFF;
+}
+
+.text-blue {
+    color: #38C9E0;
+}
+
+.text-red {
+    color: #FF3D00;
+}
+
+.bg-blue {
+    background-color: #38C9E0;
+}
+
+.bg-red {
+    background-color: #FF3D00;
+}
+
+.btn-custom {
+    background-color: #FF3D00;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.btn-custom:hover {
+    background-color: #38C9E0;
+    color: white;
+    border-radius: 10% !important;
+}
+
+
 /* Selection Color */
 
 ::selection {
@@ -40,4 +75,190 @@ body.thin::-webkit-scrollbar {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #ED3822;
+}
+
+
+/* ataglance */
+.ataglance .ataglance-img {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.ataglance .ataglance-img .ataglance-img-inner {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    /*border: 10px solid;*/
+    /*border-color: var(--bs-white) var(--bs-white) var(--bs-white) var(--bs-white);*/
+    border-radius: 50%;
+
+}
+
+.ataglance .ataglance-img .ataglance-experience {
+    position: absolute;
+    top: 175px;
+    left: -150px;
+    transform: rotate(-90deg);
+    background: transparent;
+    color: var(--bs-primary);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* mybtn */
+
+.btn {
+    font-weight: 700;
+    transition: .5s;
+}
+
+.btn:hover {
+    -webkit-box-shadow: 0 8px 6px -6px #555555;
+    -moz-box-shadow: 0 8px 6px -6px #555555;
+    box-shadow: 0 8px 6px -6px #555555;
+}
+
+.btn-primary {
+    color: #FFFFFF;
+}
+
+.btn-square {
+    width: 36px;
+    height: 36px;
+}
+
+.btn-sm-square {
+    width: 28px;
+    height: 28px;
+}
+
+.btn-lg-square {
+    width: 46px;
+    height: 46px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+}
+
+/* back to top */
+
+.back-to-top {
+    position: fixed;
+    display: none;
+    right: 30px;
+    bottom: 0;
+    border-radius: 50% 50% 0 0;
+    z-index: 99;
+}
+
+/* navbar */
+
+.navbar-light .navbar-nav .nav-link {
+    font-family: 'Jost', sans-serif;
+    position: relative;
+    margin-left: 30px;
+    padding: 30px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark);
+    outline: none;
+    transition: .5s;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+    color: var(--primary);
+}
+
+@media (min-width: 992px) {
+    .navbar-light .navbar-nav .nav-link::before {
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 5px;
+        bottom: 0;
+        left: 50%;
+        background: var(--primary);
+        transition: .5s;
+    }
+
+    .navbar-light .navbar-nav .nav-link:hover::before,
+    .navbar-light .navbar-nav .nav-link.active::before {
+        width: 100%;
+        left: 0;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar-light .navbar-nav .nav-link  {
+        margin-left: 0;
+        padding: 10px 0;
+    }
+}
+
+/* main slide */
+
+slide-header {
+    background: url(../img/hero.jpg) center center no-repeat;
+    background-size: cover;
+}
+
+/* Our Team  */
+
+.team-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.team-item .team-icon {
+    position: absolute;
+    top: 15px;
+    right: -80px;
+    rotate: -30deg;
+    transition: .5s;
+    visibility: hidden;
+}
+
+.team-item:hover .team-icon {
+    visibility: visible;
+    margin-right: 95px;
+    rotate: 0deg;
+}
+
+.team-item .team-icon .btn {
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 35px;
+}
+
+.team-item .team-content {
+    box-shadow: inset 0 0 0 0 var(--bs-dark);
+    transition: 1s;
+
+}
+
+.team-item:hover .team-content {
+    box-shadow: inset 550px 0 0 0 #FF3D00;
+    color: #FFFFFF !important;
+}
+
+/* footer */
+
+.footer {
+    background: linear-gradient(rgba(239, 245, 249, 0.2), rgba(29, 42, 77, 0.7)), url(../img/footer.png) center center no-repeat;
+    background-size: contain;
 }
