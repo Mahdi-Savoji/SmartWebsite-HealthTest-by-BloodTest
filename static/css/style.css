@@ -206,7 +206,7 @@ body.thin::-webkit-scrollbar {
 
 /* main slide */
 
-slide-header {
+.slide-header {
     background: url(../img/hero.jpg) center center no-repeat;
     background-size: cover;
 }

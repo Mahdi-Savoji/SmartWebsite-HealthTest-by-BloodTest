@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>ml0ps lab - Homepage</title>
+    <title>ml0ps lab - Predicting Diabetes</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -46,14 +46,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a class="nav-item nav-link active" href="/index">Home</a>
+                    <a class="nav-item nav-link" href="/index">Home</a>
                     <a class="nav-item nav-link" href="/our-activity">Our Activity</a>
                     <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Our Service</a>
+                        <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#">Our Service</a>
                         <div class="dropdown-menu m-0">
                             <a class="dropdown-item" href="https://cancer-app-330162519967.europe-west3.run.app/"><span
                                     class="fa fa-angle-right me-2"></span>Predicting Cancer</a>
-                            <a class="dropdown-item" href="/predicting-diabetes"><span class="fa fa-angle-right me-2"></span>Predicting
+                            <a class="dropdown-item" href="/predicting-diabetes"><span
+                                    class="fa fa-angle-right me-2"></span>Predicting
                                 Diabetes <span class="text-danger">[ new ]</span></a>
                             <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Hematologic
                                 Diseases (soon)</a>
@@ -89,15 +90,9 @@
                         </div>
                     </div>
                     <a class="nav-item nav-link" href="/our-team">Our Team</a>
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-                            <span class="fa fa-login"></span> Sign In / Sign Up
-                        </a>
-                        <div class="dropdown-menu m-0">
-                            <a class="dropdown-item" href="/sign-in"><span class="fa fa-angle-right me-2"></span>Sign In</a>
-                            <a class="dropdown-item" href="/sign-up"><span class="fa fa-angle-right me-2"></span>Sign Up</a>
-                        </div>
-                    </div>
+                    <a class="nav-item nav-link" href="/profile">My Profile</a>
+                    <a class="nav-item nav-link" href="/history">My History</a>
+                    <a class="nav-item nav-link" href="/sign-out">Sign out</a>
                 </div>
             </div>
         </nav>
@@ -107,142 +102,117 @@
 
 
 <!-- Sldie Start -->
-<div class="container-fluid bg-primary py-5 mb-5 slide-header">
+<div class="container-fluid bg-primary py-5 slide-header">
     <div class="container py-5">
         <div class="row justify-content-start">
             <div class="col-lg-6 text-center text-lg-start">
                 <h5 class="d-inline-block text-danger text-uppercase border-bottom border-5"
-                    style="border-color: rgba(256, 256, 256, .3) !important;">Welcome To M10PS lab</h5>
-                <h2 class="display-2 text-white mb-md-4">Harnessing AI for Better Health Outcomes</h2>
-                <div class="pt-2">
-                    <a class="btn btn-light rounded-pill py-md-3 px-3 mx-2" href="/predicting-diabetes">Diabetes Recognition (Ex.12)</a>
-                    <a class="btn btn-outline-light rounded-pill py-md-3 px-3 mx-2" href="https://cancer-app-330162519967.europe-west3.run.app/">Cancer Recognition (Ex.11)</a>
-                </div>
+                    style="border-color: rgba(256, 256, 256, .3) !important;">M10PS lab</h5>
+                <h2 class="display-1 text-white mb-md-4">Predicting Diabetes</h2>
             </div>
         </div>
     </div>
 </div>
 <!-- Slide End -->
 
+<!-- Predicting Diabetes Data Information Start -->
+<div class="container-fluid bg-primary">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h5 class="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block" style="border:2px solid #4F1E7B;">
+                Predicting Diabetes</h5>
+            <h1 class="display-5 w-50 mx-auto">Please enter your blood test data</h1>
+        </div>
+        <div class="row gx-5">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="bg-white text-center rounded p-5">
+                    <div class="row g-3">
+                        <form id="healthDataForm">
+                            <div class="col-12 mb-3">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-select" id="gender" name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
 
-<!-- About Start -->
-<div class="container-fluid py-5">
-    <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-5 ataglance mb-5 mb-lg-0" style="min-height: 500px;">
-                <div class="ataglance-img pb-5 ps-5">
-                    <img alt="M10PS Laboratory" class="img-fluid rounded w-100 py-1"
-                         src="img/about-2.jpg" style="object-fit: cover;" title="M10PS Laboratory">
-                    <img alt="M10PS Laboratory" class="img-fluid rounded w-100 py-4"
-                         src="img/about-1.jpg" style="object-fit: cover;" title="M10PS Laboratory">
-                    <div class="ataglance-experience">produced with <span class="fa fa-heart text-danger small"></span>
-                        by m10ps group ...
+                            <div class="col-12 mb-3">
+                                <label for="age" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="age" name="age" required min="0"
+                                       max="120">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="bmi" class="form-label">BMI</label>
+                                <input type="number" class="form-control" id="bmi" name="bmi" required step="0.1"
+                                       min="10" max="50">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="chol" class="form-label">Cholesterol (mg/dL)</label>
+                                <input type="number" class="form-control" id="chol" name="chol" required min="0"
+                                       max="500">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="tg" class="form-label">Triglycerides (mg/dL)</label>
+                                <input type="number" class="form-control" id="tg" name="tg" required min="0" max="1000">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="hdl" class="form-label">HDL (mg/dL)</label>
+                                <input type="number" class="form-control" id="hdl" name="hdl" required min="0"
+                                       max="100">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="ldl" class="form-label">LDL (mg/dL)</label>
+                                <input type="number" class="form-control" id="ldl" name="ldl" required min="0"
+                                       max="300">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="cr" class="form-label">Creatinine (mg/dL)</label>
+                                <input type="number" class="form-control" id="cr" name="cr" required step="0.1" min="0"
+                                       max="10">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="bun" class="form-label">BUN (mg/dL)</label>
+                                <input type="number" class="form-control" id="bun" name="bun" required step="0.1"
+                                       min="0" max="100">
+                            </div>
+
+
+                            <button type="reset" class="btn btn-warning mx-1">Reset</button>
+                            <button type="submit" class="btn btn-primary mx-1">Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-7">
-                <div class="mb-1">
-                    <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">About M10px
-                        Laboratory</h5>
-                    <h4 class="display-6">Advancing Healthcare Through AI and Machine Learning</h4>
-                </div>
-                <p style="text-align: justify;">
-                    At M10px Laboratory, we are dedicated to advancing healthcare through innovative artificial
-                    intelligence (AI) and machine learning (ML) technologies. Our mission is to enhance disease
-                    detection and management, empowering both healthcare professionals and patients with cutting-edge
-                    tools for better health outcomes.
-                    and you should better to know a blood test is one of the most common tests healthcare providers use
-                    to monitor your overall health or help diagnose medical conditions. You may have a blood test as
-                    part of a routine physical examination or because you have certain symptoms.
-                </p>
-                <h4 class="text-secondary">
-                    <span class="fa fa-project-diagram"></span>
-                    Current Projects
-                </h4>
-                <table class="table table-bordered" style="text-align: center; vertical-align: middle;">
-                    <tr>
-                        <td class="fw-bold">Cancer Detection</td>
-                        <td class="fw-bold">Diabetes Prediction</td>
-                    </tr>
-                </table>
-                <h4 class="text-secondary">
-                    <span class="fa fa-bullhorn"></span>
-                    Upcoming Innovations
-                </h4>
-                <table class="table table-bordered table-hover" style="text-align: center; vertical-align: middle;">
-                    <tr>
-                        <td>Predicting Hematologic Diseases</td>
-                        <td>Predicting Chronic Myelogenous Leukemia (CML)</td>
-                        <td>Predicting Acute Lymphoblastic Leukemia (ALL)</td>
-                        <td>Predicting Chronic Obstructive Pulmonary Disease (COPD)</td>
-                    </tr>
-                    <tr>
-                        <td>Predicting Heart Failure</td>
-                        <td>Predicting Cardiovascular Diseases</td>
-                        <td>Predicting Inflammatory Conditions</td>
-                        <td>Predicting Kidney Disease</td>
-                    </tr>
-                    <tr>
-                        <td>Predicting Liver Disease</td>
-                        <td>Predicting Thyroid Disorders</td>
-                        <td>Predicting Hemoglobinopathies</td>
-                        <td>Predicting Autoimmune Diseases</td>
-                    </tr>
-                    <tr>
-                        <td>Predicting Hepatitis Diseases</td>
-                        <td>Predicting Cognitive Decline</td>
-                        <td>Predicting Gout</td>
-                        <td>Predicting Vitamin Deficiencies</td>
-                    </tr>
-                </table>
-                <p style="text-align: justify;">Join us on this transformative journey as we strive to make healthcare
-                    smarter, more efficient, and accessible for everyone.
-                    Welcome to M10px Laboratory—where innovation meets health.</p>
-                <ul class="list-group">
-                    <li class="list-group-item text-secondary" style="text-align: center;">We are , Your Partner in Preventive Health.</li>
-                    <li class="list-group-item text-secondary" style="text-align: center;">We are Transforming Data into Health Solutions.</li>
-                    <li class="list-group-item text-secondary" style="text-align: center;">We are Together Towards a Healthier Future.</li>
-                </ul>
-                <div class="row g-3 pt-3">
-                    <div class="col-sm-3 col-6">
-                        <div class="bg-light text-center rounded-circle py-4">
-                            <i class="fa fa-3x fa-user-md text-primary mb-3"></i>
-                            <h6 class="mb-0">Qualified<small class="d-block text-primary">specialist</small></h6>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-6">
-                        <div class="bg-light text-center rounded-circle py-4">
-                            <i class="fa fa-3x fa-procedures text-primary mb-3"></i>
-                            <h6 class="mb-0">Emergency<small class="d-block text-primary">Services</small></h6>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-6">
-                        <div class="bg-light text-center rounded-circle py-4">
-                            <i class="fa fa-3x fa-microscope text-primary mb-3"></i>
-                            <h6 class="mb-0">Accurate<small class="d-block text-primary">Testing</small></h6>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-6">
-                        <div class="bg-light text-center rounded-circle py-4">
-                            <i class="fa fa-3x fa-ambulance text-primary mb-3"></i>
-                            <h6 class="mb-0">Quick<small class="d-block text-primary">Ambulance</small></h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="col-lg-3"></div>
         </div>
     </div>
 </div>
-<!-- About End -->
+<!-- Predicting Diabetes Data Information End -->
+
 
 <!-- Footer Start -->
-<div class="container-fluid footer bg-dark text-light mt-5 pt-5">
+<div class="container-fluid footer bg-dark text-light pt-5">
     <div class="container pb-5">
         <div class="row g-5">
             <div class="col-lg-6 col-md-6">
-                <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">M10PS Laboratory</h4>
+                <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">
+                    M10PS Laboratory</h4>
                 <p class="mb-4" style="text-align: justify;">
-                    At M10px Laboratory, we are committed to revolutionizing healthcare through advanced AI and machine learning technologies. Our innovative solutions empower individuals and healthcare professionals to predict and manage various health conditions effectively. With a focus on early detection and personalized care, we strive to enhance health outcomes and improve lives. Join us on our journey toward a healthier future. Feel free to adjust any part of the text to better align with your brand's voice!
+                    At M10px Laboratory, we are committed to revolutionizing healthcare through advanced AI and machine
+                    learning technologies. Our innovative solutions empower individuals and healthcare professionals to
+                    predict and manage various health conditions effectively. With a focus on early detection and
+                    personalized care, we strive to enhance health outcomes and improve lives. Join us on our journey
+                    toward a healthier future. Feel free to adjust any part of the text to better align with your
+                    brand's voice!
                 </p>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -250,8 +220,9 @@
                     Quick Links</h4>
                 <div class="d-flex flex-column justify-content-start">
                     <a class="text-light mb-2" href="/index"><i class="fa fa-angle-right me-2"></i>Home</a>
-                    <a class="text-light mb-2" href="/our-activity"><i class="fa fa-angle-right me-2"></i>Our Activity</a>
-                    <a class="text-light mb-2" href="/our-service"><i class="fa fa-angle-right me-2"></i>Our Services</a>
+                    <a class="text-light mb-2" href="/our-activity"><i class="fa fa-angle-right me-2"></i>Profile</a>
+                    <a class="text-light mb-2" href="/our-service"><i class="fa fa-angle-right me-2"></i>Our
+                        Services</a>
                     <a class="text-light mb-2" href="/our-team"><i class="fa fa-angle-right me-2"></i>Our Team</a>
                     <a class="text-light mb-2" href="/login"><i class="fa fa-angle-right me-2"></i>Sign In</a>
                     <a class="text-light" href="/register"><i class="fa fa-angle-right me-2"></i>Sign up</a>
