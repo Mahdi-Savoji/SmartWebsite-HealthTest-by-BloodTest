@@ -27,6 +27,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
 # User Model for SQLAlchemy
 class User(db.Model):
     __tablename__ = "user"
@@ -34,7 +35,7 @@ class User(db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
-    result = db.relationship("userResult", backref='author', lazy = True)
+    result = db.relationship("userResult", backref='author', lazy=True)
 
     def __init__(self, username, email, password):
         self.username = username
@@ -57,9 +58,9 @@ class userResult(db.Model):
     bun = db.Column(db.Float, nullable=False)
 
     result = db.Column(db.String(100), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
-    def __init__(self, gender,age,bmi,chol,tg,hdl,ldl,cr,bun,result,user_id):
+    def __init__(self, gender, age, bmi, chol, tg, hdl, ldl, cr, bun0, result, user_id):
         self.gender = gender
         self.age = age
         self.bmi = bmi
@@ -72,13 +73,16 @@ class userResult(db.Model):
         self.result = result
         self.user_id = user_id
 
+
 # Create the database tables
 with app.app_context():
     db.create_all()
 
+
 # Generate random CAPTCHA text
 def generate_random_captcha(length=6):
     return ''.join(random.choice(string.ascii_uppercase) for _ in range(length))
+
 
 # Routes
 
@@ -87,19 +91,22 @@ def home():
     user = None
     if "user_id" in session:
         user = User.query.get(session["user_id"])
-    return render_template("home.html", user=user)
+    return render_template("index.html", user=user)
+
 
 # Generate CAPTCHA image
 image = ImageCaptcha(width=260, height=80)
 
+
 @app.route("/captcha")
 def captcha():
     captcha_text = generate_random_captcha()
-    session['captcha'] = captcha_text  # Store in session
+    session['captcha'] = captcha_text
     image_file = os.path.join('static', 'img', 'CAPTCHA.png')
     image.write(captcha_text, image_file)
 
-    return app.send_static_file('img/CAPTCHA.png')  
+    return app.send_static_file('img/CAPTCHA.png')
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -107,7 +114,7 @@ def register():
     if form.validate_on_submit():
         if form.captcha.data != session.get('captcha'):
             flash("Invalid CAPTCHA. Please try again.", "danger")
-            session.pop('captcha', None)  # Clear the CAPTCHA after failure
+            session.pop('captcha', None)
             return redirect(url_for("register"))
 
         username = form.username.data
@@ -138,6 +145,7 @@ def register():
 
     return render_template("register.html", form=form)
 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -150,7 +158,7 @@ def login():
         if user and check_password_hash(user.password, password):
             session["user_id"] = user.id
             session["username"] = user.username
-            
+
             flash("Login successful!", "success")
             return redirect(url_for("home"))
         else:
@@ -164,12 +172,14 @@ def login():
 
     return render_template("login.html", form=form)
 
+
 @app.route("/logout")
 def logout():
     session.pop("user_id", None)
     session.pop("username", None)
     flash("You have been logged out.", "success")
     return redirect(url_for("login"))
+
 
 @app.route("/profile")
 def profile():
@@ -179,6 +189,7 @@ def profile():
 
     user = User.query.get(session["user_id"])
     return render_template("profile.html", user=user)
+
 
 @app.route("/input", methods=["GET", "POST"])
 def input():
@@ -208,6 +219,7 @@ def input():
 
     return render_template("input.html")
 
+
 @app.route("/result")
 def result():
     if "user_id" not in session:
@@ -231,13 +243,16 @@ def history():
 
     return render_template("history.html", predictions=predictions)
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
 
+
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template("500.html"), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
