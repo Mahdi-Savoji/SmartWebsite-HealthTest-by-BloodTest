@@ -9,9 +9,10 @@ from flask import (
 )
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy
-from forms import UserForm, LoginForm
+from flask_sqlalchemy import SQLAlchemy # for data base
+from forms import UserForm, LoginForm  # for forms
 from captcha.image import ImageCaptcha
+from model import predict_diabetes # ML model
 import os
 import random
 import string
@@ -48,13 +49,13 @@ class userResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gender = db.Column(db.String(100), nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    bmi = db.Column(db.Integer, nullable=False)
-    chol = db.Column(db.Integer, nullable=False)
-    tg = db.Column(db.Integer, nullable=False)
-    hdl = db.Column(db.Integer, nullable=False)
-    ldl = db.Column(db.Integer, nullable=False)
-    cr = db.Column(db.Integer, nullable=False)
-    bun = db.Column(db.Integer, nullable=False)
+    bmi = db.Column(db.Float, nullable=False)
+    chol = db.Column(db.Float, nullable=False)
+    tg = db.Column(db.Float, nullable=False)
+    hdl = db.Column(db.Float, nullable=False)
+    ldl = db.Column(db.Float, nullable=False)
+    cr = db.Column(db.Float, nullable=False)
+    bun = db.Column(db.Float, nullable=False)
 
     result = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
@@ -130,7 +131,7 @@ def register():
             flash("Email already registered, please use a different one.", "danger")
             return redirect(url_for("register"))
 
-        new_user = User(username=username, email=email, password=password)
+        new_user = User(username, email, password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -195,6 +196,26 @@ def input():
     if "user_id" not in session:
         flash("Please log in to access this page.", "warning")
         return redirect(url_for("login"))
+    current_user = User.query.filter_by(username=session["username"]).first()
+    if request.method == "POST":
+        gender = request.form["gender"]
+        age = int(request.form["age"])
+        bmi = float(request.form["bmi"])
+        chol = float(request.form["chol"])
+        tg = float(request.form["tg"])
+        hdl = float(request.form["hdl"])
+        ldl = float(request.form["ldl"])
+        cr = float(request.form["cr"])
+        bun = float(request.form["bun"])
+    
+    Inputs = [[gender,age,bmi,chol,tg,hdl,ldl,cr,bun]]
+    
+    predict = predict_diabetes(Inputs)
+    # save to database
+    new =  userResult(gender, age, bmi, chol, tg, hdl,ldl, cr, bun, predict, current_user.id)
+    db.session.add(new)
+    db.session.commit()
+
 
     return render_template("input.html")
 
@@ -204,8 +225,23 @@ def result():
     if "user_id" not in session:
         flash("Please log in to access this page.", "warning")
         return redirect(url_for("login"))
+    current_user = User.query.filter_by(username=session["username"]).first()
+    prediction = (
+        db.session.query(userResult.result).filter_by(id=current_user.id).first()[0]
+    )
 
-    return render_template("result.html")
+    return render_template("result.html", prediction = prediction)
+
+# history page
+@app.route("/history")
+#@login_required
+def history():
+    current_user = User.query.filter_by(username=session["username"]).first()
+
+    # all previous predictions for the logged-in user
+    predictions = userResult.query.filter_by(user_id=current_user.id).all()
+
+    return render_template("history.html", predictions=predictions)
 
 
 @app.errorhandler(404)
