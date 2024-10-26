@@ -4,7 +4,7 @@ import pandas as pd
 import os
 
 # Load the saved model
-model_path = os.path.join(os.getcwd(), 'best_diabetes_stacked_model_with_tuned_threshold.pkl')
+model_path = os.path.join(os.getcwd(), 'ML/best_diabetes_stacked_model_with_tuned_threshold.pkl')
 model_pipeline = joblib.load(model_path)
 
 def predict_diabetes(data, threshold=0.3):
