@@ -9,10 +9,10 @@ from flask import (
 )
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy # for data base
-from forms import UserForm, LoginForm  # for forms
+from flask_sqlalchemy import SQLAlchemy 
+from forms import UserForm, LoginForm 
 from captcha.image import ImageCaptcha
-from ML.model import predict_diabetes # ML model
+from ML.model import predict_diabetes 
 import os
 import random
 import string
@@ -38,7 +38,8 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     result = db.relationship("userResult", backref='author', lazy=True)
 
-    def __init__(self, username, email, password):
+    def __init__(self, fullname, username, email, password):
+        self.fullname = fullname
         self.username = username
         self.email = email
         self.password = generate_password_hash(password)  # Hash the password
@@ -61,7 +62,7 @@ class userResult(db.Model):
     result = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
-    def __init__(self, gender, age, bmi, chol, tg, hdl, ldl, cr, bun0, result, user_id):
+    def __init__(self, gender, age, bmi, chol, tg, hdl, ldl, cr, bun, result, user_id):
         self.gender = gender
         self.age = age
         self.bmi = bmi
@@ -98,9 +99,7 @@ def our_team():
     return render_template("our-team.html")
 
 
-# Generate CAPTCHA image
 image = ImageCaptcha(width=260, height=80)
-
 
 @app.route("/captcha")
 def captcha():
@@ -111,13 +110,12 @@ def captcha():
 
     return app.send_static_file('img/CAPTCHA.png')
 
-
-# Update registration route
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = UserForm()
-    if form.validate_on_submit():
-        # Check captcha
+    print("111111111111111111111111111111111111111")
+    if UserForm().validate_on_submit():
+        print("0000000000000000000000000000000")
         if form.captcha.data != session.get('captcha'):
             flash("Invalid CAPTCHA. Please try again.", "danger")
             session.pop('captcha', None)
@@ -128,7 +126,6 @@ def register():
         email = form.email.data
         password = form.password.data
 
-        # Validate username and email uniqueness
         if User.query.filter_by(username=username).first():
             flash("Username already taken, please choose a different one.", "danger")
             return redirect(url_for("register"))
@@ -137,7 +134,6 @@ def register():
             flash("Email already registered, please use a different one.", "danger")
             return redirect(url_for("register"))
 
-        # Save new user to the database
         new_user = User(fullname=fullname, username=username, email=email, password=password)
         db.session.add(new_user)
         db.session.commit()
@@ -145,7 +141,6 @@ def register():
         flash("Successfully registered! Please log in.", "success")
         return redirect(url_for("login"))
 
-    # Display errors if any
     if form.errors:
         for field, errors in form.errors.items():
             for error in errors:
@@ -158,16 +153,14 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-
         if form.captcha.data != session.get('captcha'):
             flash("Invalid CAPTCHA. Please try again.", "danger")
             session.pop('captcha', None)
-            return redirect(url_for("register"))
+            return redirect(url_for("login"))  
 
         username = form.username.data
         password = form.password.data
 
-        # Authenticate user
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
             session["user_id"] = user.id
@@ -183,6 +176,7 @@ def login():
                 flash(f"Error in {field}: {error}", "danger")
 
     return render_template("login.html", form=form)
+
 
 @app.route("/logout")
 def logout():
@@ -227,7 +221,6 @@ def input():
     db.session.add(new)
     db.session.commit()
 
-
     return render_template("input.html")
 
 
@@ -249,7 +242,6 @@ def result():
 def history():
     current_user = User.query.filter_by(username=session["username"]).first()
 
-    # all previous predictions for the logged-in user
     predictions = userResult.query.filter_by(user_id=current_user.id).all()
 
     return render_template("history.html", predictions=predictions)
