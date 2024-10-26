@@ -119,7 +119,7 @@
     <div class="container pb-5">
         <div class="text-center mb-5">
             <h5 class="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block" style="border:2px solid #4F1E7B;">Profile</h5>
-            <h1 class="display-5 w-50 mx-auto">Hello Dear,Your Account information here.</h1>
+            <h1 class="display-5 w-50 mx-auto">Hello Dear, Your Account information here.</h1>
         </div>
         <div class="row g-5">
             <div class="col-md-6 offset-md-3">
@@ -134,21 +134,21 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <i class="fas fa-user me-2"></i>
-                                <strong>Full Name:</strong> <span id="fullName">Amirreza Razazian</span>
+                                <strong>Full Name:</strong> <span id="fullName">{{ user.fullname }}</span>
                             </li>
                             <li class="list-group-item">
                                 <i class="fas fa-envelope me-2"></i>
-                                <strong>Email:</strong> <span id="email">amirreza.razazian@gmail.com</span>
+                                <strong>Email:</strong> <span id="email">{{ user.email }}</span>
                             </li>
                             <li class="list-group-item">
                                 <i class="fas fa-user-circle me-2"></i>
-                                <strong>Username:</strong> <span id="username">amrrza</span>
+                                <strong>Username:</strong> <span id="username">{{ user.username }}</span>
                             </li>
                         </ul>
                     </div>
                     <div class="card-footer" style="text-align: center;">
-                        <a class="btn btn-primary mx-1" href="/history">My History</a>
-                        <a class="btn btn-primary mx-1">Edit Profile</a>
+                        <a class="btn btn-primary mx-1" href="{{ url_for('history') }}">My History</a>
+                        <a class="btn btn-primary mx-1" href="{{ url_for('edit_profile') }}">Edit Profile</a>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,6 @@
     </div>
 </div>
 <!-- Profile End -->
-
 
 <!-- Footer Start -->
 <div class="container-fluid footer bg-dark text-light mt-5 pt-5">
