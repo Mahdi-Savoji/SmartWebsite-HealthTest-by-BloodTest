@@ -9,3 +9,5 @@ WTForms
 scikit-learn
 captcha
 email-validator
+lightgbm
+xgboost
