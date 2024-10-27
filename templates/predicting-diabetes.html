@@ -26,10 +26,10 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -38,22 +38,22 @@
 <div class="container-fluid sticky-top bg-white shadow-sm">
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
-            <a class="navbar-brand" href="/index">
-                <img src="img/logo.png" width="310">
+            <a class="navbar-brand" href="/">
+                <img src="../static/img/logo.png" width="310">
             </a>
             <button class="navbar-toggler" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a class="nav-item nav-link" href="/index">Home</a>
+                    <a class="nav-item nav-link" href="/">Home</a>
                     <a class="nav-item nav-link" href="/our-activity">Our Activity</a>
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#">Our Service</a>
                         <div class="dropdown-menu m-0">
                             <a class="dropdown-item" href="https://cancer-app-330162519967.europe-west3.run.app/"><span
                                     class="fa fa-angle-right me-2"></span>Predicting Cancer</a>
-                            <a class="dropdown-item" href="/predicting-diabetes"><span
+                            <a class="dropdown-item" href="/input"><span
                                     class="fa fa-angle-right me-2"></span>Predicting
                                 Diabetes <span class="text-danger">[ new ]</span></a>
                             <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Hematologic
@@ -92,7 +92,7 @@
                     <a class="nav-item nav-link" href="/our-team">Our Team</a>
                     <a class="nav-item nav-link" href="/profile">My Profile</a>
                     <a class="nav-item nav-link" href="/history">My History</a>
-                    <a class="nav-item nav-link" href="/sign-out">Sign out</a>
+                    <a class="nav-item nav-link" href="/logout">Sign out</a>
                 </div>
             </div>
         </nav>
@@ -127,8 +127,8 @@
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
                 <div class="bg-white text-center rounded p-5">
-                    <div class="row g-3">
-                        <form id="healthDataForm">
+                    <form action="{{ url_for('input') }}" method="post" id="healthDataForm">
+                        <div class="row g-3">
                             <div class="col-12 mb-3">
                                 <label for="gender" class="form-label">Gender</label>
                                 <select class="form-select" id="gender" name="gender" required>
@@ -140,20 +140,17 @@
 
                             <div class="col-12 mb-3">
                                 <label for="age" class="form-label">Age</label>
-                                <input type="number" class="form-control" id="age" name="age" required min="0"
-                                       max="120">
+                                <input type="number" class="form-control" id="age" name="age" required min="0" max="120">
                             </div>
 
                             <div class="col-12 mb-3">
                                 <label for="bmi" class="form-label">BMI</label>
-                                <input type="number" class="form-control" id="bmi" name="bmi" required step="0.1"
-                                       min="10" max="50">
+                                <input type="number" class="form-control" id="bmi" name="bmi" required step="0.1" min="10" max="50">
                             </div>
 
                             <div class="col-12 mb-3">
                                 <label for="chol" class="form-label">Cholesterol (mg/dL)</label>
-                                <input type="number" class="form-control" id="chol" name="chol" required min="0"
-                                       max="500">
+                                <input type="number" class="form-control" id="chol" name="chol" required min="0" max="500">
                             </div>
 
                             <div class="col-12 mb-3">
@@ -163,33 +160,28 @@
 
                             <div class="col-12 mb-3">
                                 <label for="hdl" class="form-label">HDL (mg/dL)</label>
-                                <input type="number" class="form-control" id="hdl" name="hdl" required min="0"
-                                       max="100">
+                                <input type="number" class="form-control" id="hdl" name="hdl" required min="0" max="100">
                             </div>
 
                             <div class="col-12 mb-3">
                                 <label for="ldl" class="form-label">LDL (mg/dL)</label>
-                                <input type="number" class="form-control" id="ldl" name="ldl" required min="0"
-                                       max="300">
+                                <input type="number" class="form-control" id="ldl" name="ldl" required min="0" max="300">
                             </div>
 
                             <div class="col-12 mb-3">
                                 <label for="cr" class="form-label">Creatinine (mg/dL)</label>
-                                <input type="number" class="form-control" id="cr" name="cr" required step="0.1" min="0"
-                                       max="10">
+                                <input type="number" class="form-control" id="cr" name="cr" required step="0.1" min="0" max="10">
                             </div>
 
                             <div class="col-12 mb-3">
                                 <label for="bun" class="form-label">BUN (mg/dL)</label>
-                                <input type="number" class="form-control" id="bun" name="bun" required step="0.1"
-                                       min="0" max="100">
+                                <input type="number" class="form-control" id="bun" name="bun" required step="0.1" min="0" max="100">
                             </div>
-
 
                             <button type="reset" class="btn btn-warning mx-1">Reset</button>
                             <button type="submit" class="btn btn-primary mx-1">Submit</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="col-lg-3"></div>
@@ -197,7 +189,6 @@
     </div>
 </div>
 <!-- Predicting Diabetes Data Information End -->
-
 
 <!-- Footer Start -->
 <div class="container-fluid footer bg-dark text-light pt-5">
@@ -219,7 +210,7 @@
                 <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">
                     Quick Links</h4>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-light mb-2" href="/index"><i class="fa fa-angle-right me-2"></i>Home</a>
+                    <a class="text-light mb-2" href="/"><i class="fa fa-angle-right me-2"></i>Home</a>
                     <a class="text-light mb-2" href="/our-activity"><i class="fa fa-angle-right me-2"></i>Profile</a>
                     <a class="text-light mb-2" href="/our-service"><i class="fa fa-angle-right me-2"></i>Our
                         Services</a>

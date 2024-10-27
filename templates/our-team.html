@@ -26,10 +26,10 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -38,22 +38,22 @@
 <div class="container-fluid sticky-top bg-white shadow-sm">
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
-            <a class="navbar-brand" href="/index">
-                <img src="img/logo.png" width="310">
+            <a class="navbar-brand" href="/">
+                <img src="../static/img/logo.png" width="310">
             </a>
             <button class="navbar-toggler" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a class="nav-item nav-link" href="/index">Home</a>
+                    <a class="nav-item nav-link" href="/">Home</a>
                     <a class="nav-item nav-link" href="/our-activity">Our Activity</a>
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Our Service</a>
                         <div class="dropdown-menu m-0">
                             <a class="dropdown-item" href="https://cancer-app-330162519967.europe-west3.run.app/"><span
                                     class="fa fa-angle-right me-2"></span>Predicting Cancer</a>
-                            <a class="dropdown-item" href="/predicting-diabetes"><span class="fa fa-angle-right me-2"></span>Predicting
+                            <a class="dropdown-item" href="/input"><span class="fa fa-angle-right me-2"></span>Predicting
                                 Diabetes <span class="text-danger">[ new ]</span></a>
                             <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Hematologic
                                 Diseases (soon)</a>
@@ -94,8 +94,8 @@
                             <span class="fa fa-login"></span> Sign In / Sign Up
                         </a>
                         <div class="dropdown-menu m-0">
-                            <a class="dropdown-item" href="/sign-in"><span class="fa fa-angle-right me-2"></span>Sign In</a>
-                            <a class="dropdown-item" href="/sign-up"><span class="fa fa-angle-right me-2"></span>Sign Up</a>
+                            <a class="dropdown-item" href="/login"><span class="fa fa-angle-right me-2"></span>Sign In</a>
+                            <a class="dropdown-item" href="/register"><span class="fa fa-angle-right me-2"></span>Sign Up</a>
                         </div>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
         <div class="row g-5">
             <div class="col-xxl-4 col-lg-6 col-md-6 col-sm-12">
                 <div class="rounded team-item">
-                    <img src="img/team-maneli.jpg" class="img-fluid w-100 rounded-top border border-bottom-0"
+                    <img src="../static/img/team-maneli.jpg" class="img-fluid w-100 rounded-top border border-bottom-0"
                          alt=""
                          title="">
                     <div class="team-content bg-blue text-light text-center py-3">
@@ -152,7 +152,7 @@
             </div>
             <div class="col-xxl-4 col-lg-6 col-md-6 col-sm-12">
                 <div class="rounded team-item">
-                    <img src="img/team-milad.jpg" class="img-fluid w-100 rounded-top border border-bottom-0"
+                    <img src="../static/img/team-milad.jpg" class="img-fluid w-100 rounded-top border border-bottom-0"
                          alt="" title="">
                     <div class="team-content bg-blue text-light text-center py-3">
                         <span class="fs-4 fw-bold text-white">Milad Behrouz</span>
@@ -172,7 +172,7 @@
             </div>
             <div class="col-xxl-4 col-lg-6 col-md-6 col-sm-12">
                 <div class="rounded team-item">
-                    <img src="img/team-reza.jpg" class="img-fluid w-100 rounded-top border border-bottom-0"
+                    <img src="../static/img/team-reza.jpg" class="img-fluid w-100 rounded-top border border-bottom-0"
                          alt=""
                          title="">
                     <div class="team-content bg-blue text-light text-center py-3">
@@ -193,7 +193,7 @@
             </div>
             <div class="col-xxl-4 col-lg-6 col-md-6 col-sm-12">
                 <div class="rounded team-item">
-                    <img src="img/team.jpg" class="img-fluid w-100 rounded-top border border-bottom-0" alt=""
+                    <img src="../static/img/team.jpg" class="img-fluid w-100 rounded-top border border-bottom-0" alt=""
                          title="">
                     <div class="team-content bg-blue text-light text-center py-3">
                         <span class="fs-4 fw-bold text-white">Mahdi Savoji</span>
@@ -213,7 +213,7 @@
             </div>
             <div class="col-xxl-4 col-lg-6 col-md-6 col-sm-12">
                 <div class="rounded team-item">
-                    <img src="img/team-amirreza.jpg" class="img-fluid w-100 rounded-top border border-bottom-0"
+                    <img src="../static/img/team-amirreza.jpg" class="img-fluid w-100 rounded-top border border-bottom-0"
                          alt="" title="">
                     <div class="team-content bg-blue text-light text-center py-3">
                         <span class="fs-4 fw-bold text-white">Amirreza Razazian</span>
@@ -250,7 +250,7 @@
                 <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">
                     Quick Links</h4>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-light mb-2" href="/index"><i class="fa fa-angle-right me-2"></i>Home</a>
+                    <a class="text-light mb-2" href="/"><i class="fa fa-angle-right me-2"></i>Home</a>
                     <a class="text-light mb-2" href="/our-activity"><i class="fa fa-angle-right me-2"></i>Our Activity</a>
                     <a class="text-light mb-2" href="/our-service"><i class="fa fa-angle-right me-2"></i>Our Services</a>
                     <a class="text-light mb-2" href="/our-team"><i class="fa fa-angle-right me-2"></i>Our Team</a>

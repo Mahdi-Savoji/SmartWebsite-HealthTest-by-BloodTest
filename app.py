@@ -17,6 +17,7 @@ import os
 import random
 import string
 from datetime import datetime
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -94,10 +95,17 @@ def home():
         user = User.query.get(session["user_id"])
     return render_template("index.html", user=user)
 
-@app.route("/")
+@app.route("/our-team")
 def our_team():
     return render_template("our-team.html")
 
+@app.route("/our-activity")
+def our_activity():
+    return render_template("our-activity.html")
+
+@app.route("/our-service")
+def our_service():
+    return render_template("our-service.html")
 
 image = ImageCaptcha(width=260, height=80)
 
@@ -107,15 +115,12 @@ def captcha():
     session['captcha'] = captcha_text
     image_file = os.path.join('static', 'img', 'CAPTCHA.png')
     image.write(captcha_text, image_file)
-
     return app.send_static_file('img/CAPTCHA.png')
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = UserForm()
-    print("111111111111111111111111111111111111111")
-    if UserForm().validate_on_submit():
-        print("0000000000000000000000000000000")
+    if form.validate_on_submit():
         if form.captcha.data != session.get('captcha'):
             flash("Invalid CAPTCHA. Please try again.", "danger")
             session.pop('captcha', None)
@@ -155,8 +160,9 @@ def login():
     if form.validate_on_submit():
         if form.captcha.data != session.get('captcha'):
             flash("Invalid CAPTCHA. Please try again.", "danger")
-            session.pop('captcha', None)
-            return redirect(url_for("login"))  
+            return redirect(url_for("login"))
+
+        session.pop('captcha', None)
 
         username = form.username.data
         password = form.password.data
@@ -166,7 +172,7 @@ def login():
             session["user_id"] = user.id
             session["username"] = user.username
             flash("Login successful!", "success")
-            return redirect(url_for("home"))
+            return redirect(url_for("profile"))
         else:
             flash("Invalid username or password", "danger")
 
@@ -174,7 +180,6 @@ def login():
         for field, errors in form.errors.items():
             for error in errors:
                 flash(f"Error in {field}: {error}", "danger")
-
     return render_template("login.html", form=form)
 
 
@@ -195,33 +200,54 @@ def profile():
     user = User.query.get(session["user_id"])
     return render_template("profile.html", user=user)
 
+@app.route("/edit_profile", methods=["GET", "POST"])
+def edit_profile():
+    if "user_id" not in session:
+        flash("Please log in to view this page", "warning")
+        return redirect(url_for("login"))
+
+    user = User.query.get(session["user_id"])
+
+    if request.method == "POST":
+        user.fullname = request.form["fullname"]
+        user.email = request.form["email"]
+        db.session.commit()
+        flash("Profile updated successfully!", "success")
+        return redirect(url_for("profile"))
+
+    return render_template("edit_profile.html", user=user)
 
 @app.route("/input", methods=["GET", "POST"])
+@csrf.exempt 
 def input():
     if "user_id" not in session:
         flash("Please log in to access this page.", "warning")
         return redirect(url_for("login"))
+    
     current_user = User.query.filter_by(username=session["username"]).first()
+    
     if request.method == "POST":
-        gender = request.form["gender"]
-        age = int(request.form["age"])
-        bmi = float(request.form["bmi"])
-        chol = float(request.form["chol"])
-        tg = float(request.form["tg"])
-        hdl = float(request.form["hdl"])
-        ldl = float(request.form["ldl"])
-        cr = float(request.form["cr"])
-        bun = float(request.form["bun"])
-    
-    Inputs = [[gender,age,bmi,chol,tg,hdl,ldl,cr,bun]]
-    
-    predict = predict_diabetes(Inputs)
-    # save to database
-    new =  userResult(gender, age, bmi, chol, tg, hdl,ldl, cr, bun, predict, current_user.id)
-    db.session.add(new)
-    db.session.commit()
+        gender = request.form.get("gender")
+        age = request.form.get("age", type=int)
+        bmi = request.form.get("bmi", type=float)
+        chol = request.form.get("chol", type=float)
+        tg = request.form.get("tg", type=float)
+        hdl = request.form.get("hdl", type=float)
+        ldl = request.form.get("ldl", type=float)
+        cr = request.form.get("cr", type=float)
+        bun = request.form.get("bun", type=float)
 
-    return render_template("input.html")
+        Inputs = [[gender, age, bmi, chol, tg, hdl, ldl, cr, bun]]
+        
+        predict = predict_diabetes(Inputs)
+        new_result = userResult(gender, age, bmi, chol, tg, hdl, ldl, cr, bun, predict, current_user.id)
+        db.session.add(new_result)
+        db.session.commit()
+
+        flash("Input submitted successfully!", "success")
+    
+    return render_template("predicting-diabetes.html")
+
 
 
 @app.route("/result")
@@ -231,14 +257,13 @@ def result():
         return redirect(url_for("login"))
     current_user = User.query.filter_by(username=session["username"]).first()
     prediction = (
-        db.session.query(userResult.result).filter_by(id=current_user.id).first()[0]
+        db.session.query(userResult.result).filter_by(user_id=current_user.id).first()[0]
     )
 
     return render_template("result.html", prediction = prediction)
 
 # history page
 @app.route("/history")
-#@login_required
 def history():
     current_user = User.query.filter_by(username=session["username"]).first()
 
