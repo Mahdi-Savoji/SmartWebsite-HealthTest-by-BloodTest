@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>ml0ps lab - Predicting Diabetes</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- Favicon -->
+    <link href="ico/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+    <link href="ico/favicon.svg" rel="icon" type="image/svg+xml"/>
+    <link href="ico/favicon.ico" rel="shortcut icon"/>
+    <link href="ico/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+    <link href="ico/site.webmanifest" rel="manifest"/>
+
+    <!-- Google Web Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Navbar Start -->
+<div class="container-fluid sticky-top bg-white shadow-sm">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
+            <a class="navbar-brand" href="/">
+                <img src="../static/img/logo.png" width="310">
+            </a>
+            <button class="navbar-toggler" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/our-activity">Our Activity</a>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#">Our Service</a>
+                        <div class="dropdown-menu m-0">
+                            <a class="dropdown-item" href="https://cancer-app-330162519967.europe-west3.run.app/"><span
+                                    class="fa fa-angle-right me-2"></span>Predicting Cancer</a>
+                            <a class="dropdown-item" href="/input"><span
+                                    class="fa fa-angle-right me-2"></span>Predicting
+                                Diabetes <span class="text-danger">[ new ]</span></a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Hematologic
+                                Diseases (soon)</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Chronic
+                                Myelogenous Leukemia (CML)</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Acute
+                                Lymphoblastic Leukemia (ALL)</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Chronic
+                                Obstructive Pulmonary Disease (COPD)</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Heart
+                                Failure</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting
+                                Cardiovascular Diseases</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting
+                                Inflammatory Conditions</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Kidney
+                                Disease</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Liver
+                                Disease</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Thyroid
+                                Disorders</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting
+                                Hemoglobinopathies Diseases</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Autoimmune
+                                Diseases</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Hepatitis
+                                Diseases</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Cognitive
+                                Decline</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Gout</a>
+                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Vitamin
+                                Deficiencies</a>
+                        </div>
+                    </div>
+                    <a class="nav-item nav-link" href="/our-team">Our Team</a>
+                    <a class="nav-item nav-link" href="/profile">My Profile</a>
+                    <a class="nav-item nav-link" href="/history">My History</a>
+                    <a class="nav-item nav-link" href="/logout">Sign out</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Navbar End -->
+
+
+<!-- Sldie Start -->
+<div class="container-fluid bg-primary py-5 slide-header">
+    <div class="container py-5">
+        <div class="row justify-content-start">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h5 class="d-inline-block text-danger text-uppercase border-bottom border-5"
+                    style="border-color: rgba(256, 256, 256, .3) !important;">M10PS lab</h5>
+                <h2 class="display-1 text-white mb-md-4">Predicting Diabetes</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Slide End -->
+
+<!-- Predicting Diabetes Data Information Start -->
+<div class="container-fluid bg-primary">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h5 class="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block" style="border:2px solid #4F1E7B;">
+                Predicting Diabetes</h5>
+            <h1 class="display-5 w-50 mx-auto">Please enter your blood test data</h1>
+        </div>
+        <div class="row gx-5">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="bg-white text-center rounded p-5">
+                    <form action="{{ url_for('input') }}" method="post" id="healthDataForm">
+                        <div class="row g-3">
+                            <div class="col-12 mb-3">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-select" id="gender" name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="age" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="age" name="age" required min="0" max="120">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="bmi" class="form-label">BMI</label>
+                                <input type="number" class="form-control" id="bmi" name="bmi" required step="0.1" min="10" max="50">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="chol" class="form-label">Cholesterol (mg/dL)</label>
+                                <input type="number" class="form-control" id="chol" name="chol" required min="0" max="500">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="tg" class="form-label">Triglycerides (mg/dL)</label>
+                                <input type="number" class="form-control" id="tg" name="tg" required min="0" max="1000">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="hdl" class="form-label">HDL (mg/dL)</label>
+                                <input type="number" class="form-control" id="hdl" name="hdl" required min="0" max="100">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="ldl" class="form-label">LDL (mg/dL)</label>
+                                <input type="number" class="form-control" id="ldl" name="ldl" required min="0" max="300">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="cr" class="form-label">Creatinine (mg/dL)</label>
+                                <input type="number" class="form-control" id="cr" name="cr" required step="0.1" min="0" max="10">
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="bun" class="form-label">BUN (mg/dL)</label>
+                                <input type="number" class="form-control" id="bun" name="bun" required step="0.1" min="0" max="100">
+                            </div>
+
+                            <button type="reset" class="btn btn-warning mx-1">Reset</button>
+                            <button type="submit" class="btn btn-primary mx-1">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+    </div>
+</div>
+<!-- Predicting Diabetes Data Information End -->
+
+<!-- Footer Start -->
+<div class="container-fluid footer bg-dark text-light pt-5">
+    <div class="container pb-5">
+        <div class="row g-5">
+            <div class="col-lg-6 col-md-6">
+                <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">
+                    M10PS Laboratory</h4>
+                <p class="mb-4" style="text-align: justify;">
+                    At M10px Laboratory, we are committed to revolutionizing healthcare through advanced AI and machine
+                    learning technologies. Our innovative solutions empower individuals and healthcare professionals to
+                    predict and manage various health conditions effectively. With a focus on early detection and
+                    personalized care, we strive to enhance health outcomes and improve lives. Join us on our journey
+                    toward a healthier future. Feel free to adjust any part of the text to better align with your
+                    brand's voice!
+                </p>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">
+                    Quick Links</h4>
+                <div class="d-flex flex-column justify-content-start">
+                    <a class="text-light mb-2" href="/"><i class="fa fa-angle-right me-2"></i>Home</a>
+                    <a class="text-light mb-2" href="/our-activity"><i class="fa fa-angle-right me-2"></i>Profile</a>
+                    <a class="text-light mb-2" href="/our-service"><i class="fa fa-angle-right me-2"></i>Our
+                        Services</a>
+                    <a class="text-light mb-2" href="/our-team"><i class="fa fa-angle-right me-2"></i>Our Team</a>
+                    <a class="text-light mb-2" href="/login"><i class="fa fa-angle-right me-2"></i>Sign In</a>
+                    <a class="text-light" href="/register"><i class="fa fa-angle-right me-2"></i>Sign up</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">
+                    Contact Us</h4>
+                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>Tehran, Iran</p>
+                <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>mlops@m10ps.com</p>
+                <p class="mb-0"><i class="fa fa-phone-alt text-primary me-3"></i>+98 2134567890</p>
+                <h6 class="text-primary text-uppercase mt-4 mb-3">Follow Us</h6>
+                <div class="d-flex">
+
+                    <a class="btn btn-primary btn-square rounded-circle me-2" href="https://t.me/m10ps"><i
+                            class="fa fa-paper-plane"></i></a>
+                    <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i
+                            class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i
+                            class="fab fa-kaggle"></i></a>
+
+                    <a class="btn btn-primary btn-square rounded-circle" href="#"><i
+                            class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid bg-dark text-light border-top border-secondary py-2">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-md-12 text-center text-md-center">
+                <p class="mb-0 text-lig">&copy; 2024 m10ps Group - All Rights Reserved.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer End -->
+
+
+<!-- Back to Top -->
+<a class="btn btn-lg btn-primary btn-lg-square back-to-top" href="#"><i class="bi bi-arrow-up"></i></a>
+
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
+
+</html>

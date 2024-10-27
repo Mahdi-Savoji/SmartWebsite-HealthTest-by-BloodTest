@@ -1,9 +1,11 @@
 import joblib
 import numpy as np
 import pandas as pd
+import os
 
 # Load the saved model
-model_pipeline = joblib.load('best_diabetes_stacked_model_with_tuned_threshold.pkl')
+model_path = os.path.join(os.getcwd(), 'ML/best_diabetes_stacked_model_with_tuned_threshold.pkl')
+model_pipeline = joblib.load(model_path)
 
 def predict_diabetes(data, threshold=0.3):
     """
@@ -25,19 +27,4 @@ def predict_diabetes(data, threshold=0.3):
     # Apply the threshold to return 0 or 1
     return int(diabetes_proba >= threshold)
 
-# Example input data
-new_data = pd.DataFrame({
-    'Gender': ['Male'],        # Categorical
-    'Age': [45],               # Numerical
-    'BMI': [28.7],             # Numerical
-    'Chol': [220],             # Numerical
-    'TG': [150],               # Numerical
-    'HDL': [45],               # Numerical
-    'LDL': [130],              # Numerical
-    'Cr': [1.1],               # Numerical
-    'BUN': [14.5]              # Numerical
-})
 
-# Example of Predictino Functino Usage 
-# result = predict_diabetes(new_data)
-# print(f"Predicted Diagnosis (0 = No Diabetes, 1 = Diabetes): {result}")
