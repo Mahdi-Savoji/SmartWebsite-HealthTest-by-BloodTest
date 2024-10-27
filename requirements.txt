@@ -1,0 +1,13 @@
+Flask
+Flask-SQLAlchemy
+flask-wtf
+joblib
+numpy
+pandas
+Werkzeug
+WTForms
+scikit-learn
+captcha
+email-validator
+lightgbm
+xgboost

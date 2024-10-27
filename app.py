@@ -24,8 +24,8 @@ csrf = CSRFProtect(app)
 app.config["SECRET_KEY"] = os.urandom(12)
 
 # Configure SQLite Database with SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
@@ -84,7 +84,8 @@ with app.app_context():
 
 # Generate random CAPTCHA text
 def generate_random_captcha(length=6):
-    return ''.join(random.choice(string.ascii_uppercase) for _ in range(length))
+    return "".join(random.choice(string.ascii_uppercase) for _ in range(length))
+
 
 
 # Routes
@@ -109,6 +110,7 @@ def our_service():
 
 image = ImageCaptcha(width=260, height=80)
 
+
 @app.route("/captcha")
 def captcha():
     captcha_text = generate_random_captcha()
@@ -121,7 +123,7 @@ def captcha():
 def register():
     form = UserForm()
     if form.validate_on_submit():
-        if form.captcha.data != session.get('captcha'):
+        if form.captcha.data != session.get("captcha"):
             flash("Invalid CAPTCHA. Please try again.", "danger")
             session.pop('captcha', None)
             return redirect(url_for("register"))
@@ -250,6 +252,7 @@ def input():
 
 
 
+
 @app.route("/result")
 def result():
     if "user_id" not in session:
@@ -272,6 +275,7 @@ def history():
     return render_template("history.html", predictions=predictions)
 
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
@@ -283,4 +287,4 @@ def internal_server_error(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)
