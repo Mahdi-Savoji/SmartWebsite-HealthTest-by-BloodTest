@@ -26,10 +26,10 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -38,16 +38,16 @@
 <div class="container-fluid sticky-top bg-white shadow-sm">
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
-            <a class="navbar-brand" href="/index">
-                <img src="img/logo.png" width="310">
+            <a class="navbar-brand" href="/">
+                <img src="../static/img/logo.png" width="310">
             </a>
             <button class="navbar-toggler" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a class="nav-item nav-link" href="/index">Home</a>
-                    <a class="nav-item nav-link" href="/our-activity">Our Activity</a>
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/our_activity">Our Activity</a>
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Our Service</a>
                         <div class="dropdown-menu m-0">
@@ -94,8 +94,8 @@
                             <span class="fa fa-login"></span> Sign In / Sign Up
                         </a>
                         <div class="dropdown-menu m-0">
-                            <a class="dropdown-item" href="/sign-in"><span class="fa fa-angle-right me-2"></span>Sign In</a>
-                            <a class="dropdown-item" href="/sign-up"><span class="fa fa-angle-right me-2"></span>Sign Up</a>
+                            <a class="dropdown-item" href="/login"><span class="fa fa-angle-right me-2"></span>Sign In</a>
+                            <a class="dropdown-item" href="/register"><span class="fa fa-angle-right me-2"></span>Sign Up</a>
                         </div>
                     </div>
                 </div>
@@ -134,7 +134,7 @@
                         {{ form.csrf_token }}
                         <div class="row g-3">
                             <div class="col-12 col-sm-6">
-                                {{ form.fullname(class_="form-control bg-light border-0", placeholder="Your fullName", style="height: 55px;") }}
+                                {{ form.fullname(class_="form-control bg-light border-0", placeholder="Your Full Name", style="height: 55px;") }}
                             </div>
                             <div class="col-12 col-sm-6">
                                 {{ form.username(class_="form-control bg-light border-0", placeholder="Your Username", style="height: 55px;") }}
@@ -146,16 +146,17 @@
                                 {{ form.password(class_="form-control bg-light border-0", placeholder="Your Password", style="height: 55px;") }}
                             </div>
                             <div class="col-12 col-sm-6">
-                                <img src="img/CAPTCHA.png" title="captcha" alt="captcha">
+                                <img src="{{ url_for('captcha') }}" alt="CAPTCHA" />
                             </div>
                             <div class="col-12 col-sm-6">
                                 {{ form.captcha(class_="form-control bg-light border-0", placeholder="Captcha Code", style="height: 55px;") }}
                             </div>
                             <div class="col-12">
-                                {{ form.submit(class_="btn btn-primary w-100 py-3") }}
+                                {{ form.submit(class_="btn btn-primary w-100 py-3", value="Register") }}
                             </div>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
@@ -178,7 +179,7 @@
                 <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">
                     Quick Links</h4>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-light mb-2" href="/index"><i class="fa fa-angle-right me-2"></i>Home</a>
+                    <a class="text-light mb-2" href="/"><i class="fa fa-angle-right me-2"></i>Home</a>
                     <a class="text-light mb-2" href="/our-activity"><i class="fa fa-angle-right me-2"></i>Our Activity</a>
                     <a class="text-light mb-2" href="/our-service"><i class="fa fa-angle-right me-2"></i>Our Services</a>
                     <a class="text-light mb-2" href="/our-team"><i class="fa fa-angle-right me-2"></i>Our Team</a>
