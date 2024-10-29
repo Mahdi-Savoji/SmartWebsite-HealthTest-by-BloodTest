@@ -16,19 +16,19 @@ from ML.model import predict_diabetes
 import os
 import random
 import string
-import pandas as pd
 from datetime import datetime
-from flask_wtf.csrf import CSRFProtect
+import pandas as pd
+from functools import wraps
+
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 app.config["SECRET_KEY"] = os.urandom(12)
 
 # Configure SQLite Database with SQLAlchemy
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
 
 # User Model for SQLAlchemy
 class User(db.Model):
@@ -44,7 +44,7 @@ class User(db.Model):
         self.fullname = fullname
         self.username = username
         self.email = email
-        self.password = generate_password_hash(password)  # Hash the password
+        self.password = generate_password_hash(password)  
 
 
 class userResult(db.Model):
@@ -60,7 +60,6 @@ class userResult(db.Model):
     ldl = db.Column(db.Float, nullable=False)
     cr = db.Column(db.Float, nullable=False)
     bun = db.Column(db.Float, nullable=False)
-
     result = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
@@ -85,17 +84,32 @@ with app.app_context():
 
 # Generate random CAPTCHA text
 def generate_random_captcha(length=6):
-    return "".join(random.choice(string.ascii_uppercase) for _ in range(length))
+    return ''.join(random.choice(string.ascii_uppercase) for _ in range(length))
 
 
+# Login required decorator
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "username" not in session:
+            flash("You need to be logged in to access this page.", "danger")
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+
+    return decorated_function
 
 # Routes
 @app.route("/")
 def home():
+    login_success = session.pop('login_success', None)
+    
     user = None
-    if "user_id" in session:
-        user = User.query.get(session["user_id"])
-    return render_template("index.html", user=user)
+    if "username" in session:
+        user = User.query.filter_by(username=session["username"]).first()
+    
+    return render_template("index.html", user=user, login_success=login_success)
+
+
 
 @app.route("/our-team")
 def our_team():
@@ -103,14 +117,15 @@ def our_team():
 
 @app.route("/our-activity")
 def our_activity():
-    return render_template("our-activity.html")
+    return render_template("our-activity.html")  
+
 
 @app.route("/our-service")
-def our_service():
-    return render_template("our-service.html")
+def our_service(): 
+    return render_template("our-service.html") 
+
 
 image = ImageCaptcha(width=260, height=80)
-
 
 @app.route("/captcha")
 def captcha():
@@ -124,7 +139,7 @@ def captcha():
 def register():
     form = UserForm()
     if form.validate_on_submit():
-        if form.captcha.data != session.get("captcha"):
+        if form.captcha.data != session.get('captcha'):
             flash("Invalid CAPTCHA. Please try again.", "danger")
             session.pop('captcha', None)
             return redirect(url_for("register"))
@@ -174,7 +189,7 @@ def login():
         if user and check_password_hash(user.password, password):
             session["user_id"] = user.id
             session["username"] = user.username
-            flash("Login successful!", "success")
+            session['login_success'] = True  
             return redirect(url_for("profile"))
         else:
             flash("Invalid username or password", "danger")
@@ -187,14 +202,16 @@ def login():
 
 
 @app.route("/logout")
+@login_required
 def logout():
     session.pop("user_id", None)
     session.pop("username", None)
-    flash("You have been logged out.", "success")
+    flash("You have been logged out.", "success")  
     return redirect(url_for("login"))
 
 
 @app.route("/profile")
+@login_required
 def profile():
     if "user_id" not in session:
         flash("Please log in to view this page", "warning")
@@ -230,65 +247,100 @@ def input():
     current_user = User.query.filter_by(username=session["username"]).first()
     
     if request.method == "POST":
-        gender = request.form.get("gender")
-        age = request.form.get("age", type=int)
-        bmi = request.form.get("bmi", type=float)
-        chol = request.form.get("chol", type=float)
-        tg = request.form.get("tg", type=float)
-        hdl = request.form.get("hdl", type=float)
-        ldl = request.form.get("ldl", type=float)
-        cr = request.form.get("cr", type=float)
-        bun = request.form.get("bun", type=float)
-         
-        #Inputs = [[gender, age, bmi, chol, tg, hdl, ldl, cr, bun]]
+        gender = request.form["gender"]
+        age = int(request.form["age"])
+        bmi = float(request.form["bmi"])
+        chol = float(request.form["chol"])
+        tg = float(request.form["tg"])
+        hdl = float(request.form["hdl"])
+        ldl = float(request.form["ldl"])
+        cr = float(request.form["cr"])
+        bun = float(request.form["bun"])
 
         Inputs = pd.DataFrame({
-                                'Gender': [gender],       
-                                'Age': [age],               
-                                'BMI': [bmi],             
-                                'Chol': [chol],           
-                                'TG': [tg],              
-                                'HDL': [hdl],             
-                                'LDL': [ldl],             
-                                'Cr': [cr],               
-                                'BUN': [bun]              
-                            })
-        
-        predict = predict_diabetes(Inputs)
-        new_result = userResult(gender, age, bmi, chol, tg, hdl, ldl, cr, bun, predict, current_user.id)
+            'Gender': [gender],  
+            'Age': [age],        
+            'BMI': [bmi],        
+            'Chol': [chol],      
+            'TG': [tg],          
+            'HDL': [hdl],        
+            'LDL': [ldl],        
+            'Cr': [cr],          
+            'BUN': [bun]         
+        })
+   
+        result = predict_diabetes(Inputs)
+
+        if result == 1:  
+            message = "Yes, your test results indicate a high likelihood of diabetes. Please consult your healthcare provider as soon as possible for a proper diagnosis and to discuss next steps. Early detection and management are crucial for your health."
+        else:  
+            message = "No, your test results do not indicate diabetes at this time. However, it's important to maintain a healthy lifestyle and continue regular check-ups with your healthcare provider. If you have any concerns, don't hesitate to consult a medical professional."
+
+        new_result = userResult(
+            gender=gender,
+            age=age,
+            bmi=bmi,
+            chol=chol,
+            tg=tg,
+            hdl=hdl,
+            ldl=ldl,
+            cr=cr,
+            bun=bun,
+            result=message,  
+            user_id=current_user.id
+        )
         db.session.add(new_result)
         db.session.commit()
 
         flash("Input submitted successfully!", "success")
+        return redirect(url_for("result"))  
 
-        return redirect(url_for("result"))
-    
     return render_template("predicting-diabetes.html")
-
-
-
 
 @app.route("/result")
 def result():
     if "user_id" not in session:
         flash("Please log in to access this page.", "warning")
         return redirect(url_for("login"))
+
     current_user = User.query.filter_by(username=session["username"]).first()
+    
     prediction = (
-        db.session.query(userResult.result).filter_by(user_id=current_user.id).first()[0]
+        db.session.query(userResult)
+        .filter_by(user_id=current_user.id)
+        .order_by(userResult.timestamp.desc())  
+        .first()
     )
 
-    return render_template("result.html", prediction = prediction)
+    if prediction:
+        return render_template("result.html", 
+            gender=prediction.gender,
+            age=prediction.age,
+            bmi=prediction.bmi,
+            chol=prediction.chol,
+            tg=prediction.tg,
+            hdl=prediction.hdl,
+            ldl=prediction.ldl,
+            cr=prediction.cr,
+            bun=prediction.bun,
+            prediction=prediction.result  
+        )
 
-# history page
+    flash("No prediction found.", "warning")
+    return redirect(url_for("input"))  
+
+
 @app.route("/history")
+@login_required
 def history():
+    if "user_id" not in session:
+        flash("Please log in to access this page.", "warning")
+        return redirect(url_for("login"))
+        
     current_user = User.query.filter_by(username=session["username"]).first()
-
     predictions = userResult.query.filter_by(user_id=current_user.id).all()
 
     return render_template("history.html", predictions=predictions)
-
 
 
 @app.errorhandler(404)
@@ -302,4 +354,4 @@ def internal_server_error(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0",port=5002)
+    app.run(debug=True, port=5000)
