@@ -127,32 +127,35 @@
                     <div class="table-responsive">
                         <table id="historyTable" class="table table-striped table-bordered">
                             <thead>
-                            <tr>
-                                <th>Date/Time</th>
-                                <th>BMI</th>
-                                <th>Cholesterol</th>
-                                <th>Triglycerides</th>
-                                <th>HDL</th>
-                                <th>LDL</th>
-                                <th>Creatinine</th>
-                                <th>BUN</th>
-                                <th>Result Diabetes</th>
-                            </tr>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>BMI</th>
+                                    <th>Cholesterol</th>
+                                    <th>Triglycerides</th>
+                                    <th>HDL</th>
+                                    <th>LDL</th>
+                                    <th>Creatinine</th>
+                                    <th>BUN</th>
+                                    <th>Result Diabetes</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Friday, 20 October, 18:19:20</td>
-                                <td>28.7</td>
-                                <td>220</td>
-                                <td>150</td>
-                                <td>45</td>
-                                <td>130</td>
-                                <td>1.1</td>
-                                <td>14.5</td>
-                                <td>Yes / No</td>
-                            </tr>
+                                {% for prediction in predictions %}
+                                <tr>
+                                    <td>{{ prediction.timestamp }}</td>  <!-- Ensure this matches your timestamp field -->
+                                    <td>{{ prediction.bmi }}</td>
+                                    <td>{{ prediction.chol }}</td>
+                                    <td>{{ prediction.tg }}</td>
+                                    <td>{{ prediction.hdl }}</td>
+                                    <td>{{ prediction.ldl }}</td>
+                                    <td>{{ prediction.cr }}</td>
+                                    <td>{{ prediction.bun }}</td>
+                                    <td>{{ prediction.result }}</td>  <!-- Assuming this is the diabetes result message -->
+                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
+                        
                     </div>
                 </div>
             </div>
