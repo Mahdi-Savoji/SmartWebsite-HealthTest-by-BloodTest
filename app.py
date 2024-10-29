@@ -16,6 +16,7 @@ from ML.model import predict_diabetes
 import os
 import random
 import string
+import pandas as pd
 from datetime import datetime
 from flask_wtf.csrf import CSRFProtect
 
@@ -238,8 +239,20 @@ def input():
         ldl = request.form.get("ldl", type=float)
         cr = request.form.get("cr", type=float)
         bun = request.form.get("bun", type=float)
+         
+        #Inputs = [[gender, age, bmi, chol, tg, hdl, ldl, cr, bun]]
 
-        Inputs = [[gender, age, bmi, chol, tg, hdl, ldl, cr, bun]]
+        Inputs = pd.DataFrame({
+                                'Gender': [gender],       
+                                'Age': [age],               
+                                'BMI': [bmi],             
+                                'Chol': [chol],           
+                                'TG': [tg],              
+                                'HDL': [hdl],             
+                                'LDL': [ldl],             
+                                'Cr': [cr],               
+                                'BUN': [bun]              
+                            })
         
         predict = predict_diabetes(Inputs)
         new_result = userResult(gender, age, bmi, chol, tg, hdl, ldl, cr, bun, predict, current_user.id)
@@ -247,6 +260,8 @@ def input():
         db.session.commit()
 
         flash("Input submitted successfully!", "success")
+
+        return redirect(url_for("result"))
     
     return render_template("predicting-diabetes.html")
 
@@ -287,4 +302,4 @@ def internal_server_error(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, host="0.0.0.0",port=5002)
