@@ -56,37 +56,7 @@
                             <a class="dropdown-item" href="/input"><span
                                     class="fa fa-angle-right me-2"></span>Predicting
                                 Diabetes <span class="text-danger">[ new ]</span></a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Hematologic
-                                Diseases (soon)</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Chronic
-                                Myelogenous Leukemia (CML)</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Acute
-                                Lymphoblastic Leukemia (ALL)</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Chronic
-                                Obstructive Pulmonary Disease (COPD)</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Heart
-                                Failure</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting
-                                Cardiovascular Diseases</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting
-                                Inflammatory Conditions</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Kidney
-                                Disease</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Liver
-                                Disease</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Thyroid
-                                Disorders</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting
-                                Hemoglobinopathies Diseases</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Autoimmune
-                                Diseases</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Hepatitis
-                                Diseases</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Cognitive
-                                Decline</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Gout</a>
-                            <a class="dropdown-item text-decoration-line-through" href="#">[soon] Predicting Vitamin
-                                Deficiencies</a>
+                            <!-- Additional services here -->
                         </div>
                     </div>
                     <a class="nav-item nav-link" href="/our-team">Our Team</a>
@@ -100,15 +70,14 @@
 </div>
 <!-- Navbar End -->
 
-
-<!-- Sldie Start -->
+<!-- Slide Start -->
 <div class="container-fluid bg-primary py-5 slide-header">
     <div class="container py-5">
         <div class="row justify-content-start">
             <div class="col-lg-6 text-center text-lg-start">
                 <h5 class="d-inline-block text-danger text-uppercase border-bottom border-5"
                     style="border-color: rgba(256, 256, 256, .3) !important;">M10PS lab</h5>
-                <h2 class="display-1 text-white mb-md-4">Result Predicating</h2>
+                <h2 class="display-1 text-white mb-md-4">Result Predicting</h2>
             </div>
         </div>
     </div>
@@ -122,6 +91,15 @@
             <h5 class="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block" style="border:2px solid #4F1E7B;">Result
                 Predicting Diabetes</h5>
         </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
         <div class="row gx-5">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
@@ -132,39 +110,32 @@
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>Gender:</strong> <span id="gender"></span>Male</li>
-                                <li class="list-group-item"><strong>Age:</strong> <span id="age"></span>45</li>
-                                <li class="list-group-item"><strong>BMI:</strong> <span id="bmi"></span>28.7</li>
-                                <li class="list-group-item"><strong>Cholesterol:</strong> <span id="chol"></span>220
-                                    mg/dL
-                                </li>
-                                <li class="list-group-item"><strong>Triglycerides:</strong> <span id="tg"></span>150
-                                    mg/dL
-                                </li>
-                                <li class="list-group-item"><strong>HDL:</strong> <span id="hdl"></span>45 mg/dL</li>
-                                <li class="list-group-item"><strong>LDL:</strong> <span id="ldl"></span>130 mg/dL</li>
-                                <li class="list-group-item"><strong>Creatinine:</strong> <span id="cr"></span>1.1 mg/dL
-                                </li>
-                                <li class="list-group-item"><strong>BUN:</strong> <span id="bun"></span>14.5 mg/dL</li>
+                                <li class="list-group-item"><strong>Gender:</strong> <span id="gender">{{ gender }}</span></li>
+                                <li class="list-group-item"><strong>Age:</strong> <span id="age">{{ age }}</span></li>
+                                <li class="list-group-item"><strong>BMI:</strong> <span id="bmi">{{ bmi }}</span></li>
+                                <li class="list-group-item"><strong>Cholesterol:</strong> <span id="chol">{{ chol }}</span> mg/dL</li>
+                                <li class="list-group-item"><strong>Triglycerides:</strong> <span id="tg">{{ tg }}</span> mg/dL</li>
+                                <li class="list-group-item"><strong>HDL:</strong> <span id="hdl">{{ hdl }}</span> mg/dL</li>
+                                <li class="list-group-item"><strong>LDL:</strong> <span id="ldl">{{ ldl }}</span> mg/dL</li>
+                                <li class="list-group-item"><strong>Creatinine:</strong> <span id="cr">{{ cr }}</span> mg/dL</li>
+                                <li class="list-group-item"><strong>BUN:</strong> <span id="bun">{{ bun }}</span> mg/dL</li>
                             </ul>
                         </div>
                     </div>
-
                     <div class="card">
                         <div class="card-header bg-info text-white">
                             <h3 class="card-title mb-0">Predicted Diagnosis</h3>
                         </div>
                         <div class="card-body">
-                            <p class="text-center small" id="diagnosisNo">
-                                "No, Your test results do not indicate diabetes at this time. However, it's important to
-                                maintain a healthy lifestyle and continue regular check-ups with your healthcare
-                                provider. If you have any concerns, don't hesitate to consult a medical professional."
-                            </p>
-                            OR
-                            <p class="text-center small" id="diagnosisYes">
-                                "Yes, Your test results indicate a high likelihood of diabetes. Please consult your
-                                healthcare provider as soon as possible for a proper diagnosis and to discuss next
-                                steps. Early detection and management are crucial for your health." </p>
+                            {% if prediction == "No" %}
+                                <p class="text-center small" id="diagnosisNo">
+                                    "No, Your test results do not indicate diabetes at this time. However, it's important to maintain a healthy lifestyle and continue regular check-ups with your healthcare provider. If you have any concerns, don't hesitate to consult a medical professional."
+                                </p>
+                            {% else %}
+                                <p class="text-center small" id="diagnosisYes">
+                                    "Yes, Your test results indicate a high likelihood of diabetes. Please consult your healthcare provider as soon as possible for a proper diagnosis and to discuss next steps. Early detection and management are crucial for your health."
+                                </p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -174,6 +145,7 @@
     </div>
 </div>
 <!-- Result of Predicting Diabetes Data Information End -->
+
 
 
 <!-- Footer Start -->
