@@ -91,12 +91,12 @@ def generate_random_captcha(length=6):
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if "username" not in session:
+        if "user_id" not in session:
             flash("You need to be logged in to access this page.", "danger")
             return redirect(url_for("login"))
         return f(*args, **kwargs)
-
     return decorated_function
+
 
 # Routes
 @app.route("/")
@@ -108,7 +108,6 @@ def home():
         user = User.query.filter_by(username=session["username"]).first()
     
     return render_template("index.html", user=user, login_success=login_success)
-
 
 
 @app.route("/our-team")
@@ -210,22 +209,10 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/profile")
+@app.route("/profile", methods=["GET", "POST"])
 @login_required
+@csrf.exempt
 def profile():
-    if "user_id" not in session:
-        flash("Please log in to view this page", "warning")
-        return redirect(url_for("login"))
-
-    user = User.query.get(session["user_id"])
-    return render_template("profile.html", user=user)
-
-@app.route("/edit_profile", methods=["GET", "POST"])
-def edit_profile():
-    if "user_id" not in session:
-        flash("Please log in to view this page", "warning")
-        return redirect(url_for("login"))
-
     user = User.query.get(session["user_id"])
 
     if request.method == "POST":
@@ -233,9 +220,9 @@ def edit_profile():
         user.email = request.form["email"]
         db.session.commit()
         flash("Profile updated successfully!", "success")
-        return redirect(url_for("profile"))
+    return render_template("profile.html", user=user)
 
-    return render_template("edit_profile.html", user=user)
+
 
 @app.route("/input", methods=["GET", "POST"])
 @csrf.exempt 

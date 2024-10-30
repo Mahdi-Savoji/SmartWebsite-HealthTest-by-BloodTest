@@ -125,30 +125,43 @@
             <div class="col-md-6 offset-md-3">
                 <div class="card">
                     <div class="card-header bg-primary text-white text-center">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                          <div id="flashMessage">
+                            {% for category, message in messages %}
+                              <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+                      {% endwith %}
                         <h3 class="card-title mb-0">User Profile</h3>
                     </div>
                     <div class="card-body">
                         <div class="text-center mb-4">
                             <img src="../static/img/team.jpg" alt="Profile Picture" class="rounded-circle img-thumbnail" width="150">
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <i class="fas fa-user me-2"></i>
-                                <strong>Full Name:</strong> <span id="fullName">{{ user.fullname }}</span>
-                            </li>
-                            <li class="list-group-item">
-                                <i class="fas fa-envelope me-2"></i>
-                                <strong>Email:</strong> <span id="email">{{ user.email }}</span>
-                            </li>
-                            <li class="list-group-item">
-                                <i class="fas fa-user-circle me-2"></i>
-                                <strong>Username:</strong> <span id="username">{{ user.username }}</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-footer" style="text-align: center;">
-                        <a class="btn btn-primary mx-1" href="{{ url_for('history') }}">My History</a>
-                        <a class="btn btn-primary mx-1" href="#">Edit Profile</a>
+                        <form method="POST" action="{{ url_for('profile') }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fas fa-user me-2"></i>
+                                    <strong>Full Name:</strong>
+                                    <span id="fullName" class="editable-field">{{ user.fullname }}</span>
+                                    <input type="text" name="fullname" value="{{ user.fullname }}" class="edit-input d-none">
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-envelope me-2"></i>
+                                    <strong>Email:</strong>
+                                    <span id="email" class="editable-field">{{ user.email }}</span>
+                                    <input type="email" name="email" value="{{ user.email }}" class="edit-input d-none">
+                                </li>
+                            </ul>
+                            <div class="text-center mt-3">
+                                <button type="button" class="btn btn-primary mx-1" onclick="toggleEditMode()">Edit Profile</button>
+                                <button type="submit" class="btn btn-success mx-1 d-none save-btn">Save Changes</button>
+                                <button type="button" class="btn btn-secondary mx-1 d-none cancel-btn" onclick="toggleEditMode(true)">Cancel</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -228,6 +241,29 @@
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
+<script>
+    function toggleEditMode(cancel = false) {
+        const editFields = document.querySelectorAll('.edit-input');
+        const displayFields = document.querySelectorAll('.editable-field');
+        const editBtn = document.querySelector('.btn-primary');
+        const saveBtn = document.querySelector('.save-btn');
+        const cancelBtn = document.querySelector('.cancel-btn');
+
+        if (cancel) {
+            editFields.forEach((input, i) => input.classList.add('d-none'));
+            displayFields.forEach((span, i) => span.classList.remove('d-none'));
+            editBtn.classList.remove('d-none');
+            saveBtn.classList.add('d-none');
+            cancelBtn.classList.add('d-none');
+        } else {
+            editFields.forEach((input, i) => input.classList.remove('d-none'));
+            displayFields.forEach((span, i) => span.classList.add('d-none'));
+            editBtn.classList.add('d-none');
+            saveBtn.classList.remove('d-none');
+            cancelBtn.classList.remove('d-none');
+        }
+    }
+</script>
 </body>
 
 </html>

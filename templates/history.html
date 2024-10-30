@@ -150,7 +150,7 @@
                                     <td>{{ prediction.ldl }}</td>
                                     <td>{{ prediction.cr }}</td>
                                     <td>{{ prediction.bun }}</td>
-                                    <td>{{ prediction.result }}</td>  <!-- Assuming this is the diabetes result message -->
+                                    <td>{{ "Yes" if "yes" in prediction.result.lower() else "No" }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
