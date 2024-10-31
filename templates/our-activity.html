@@ -89,15 +89,21 @@
                         </div>
                     </div>
                     <a class="nav-item nav-link" href="/our-team">Our Team</a>
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-                            <span class="fa fa-login"></span> Sign In / Sign Up
-                        </a>
-                        <div class="dropdown-menu m-0">
-                            <a class="dropdown-item" href="/login"><span class="fa fa-angle-right me-2"></span>Sign In</a>
-                            <a class="dropdown-item" href="/register"><span class="fa fa-angle-right me-2"></span>Sign Up</a>
+                    {% if session.get('user_id') %}
+                    <a class="nav-item nav-link active" href="/profile">My Profile</a>
+                    <a class="nav-item nav-link" href="/history">My History</a>
+                    <a class="nav-item nav-link" href="/logout">Sign out</a>
+                    {% else %}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                                <span class="fa fa-login"></span> Sign In / Sign Up
+                            </a>
+                            <div class="dropdown-menu m-0">
+                                <a class="dropdown-item" href="/login"><span class="fa fa-angle-right me-2"></span>Sign In</a>
+                                <a class="dropdown-item" href="/register"><span class="fa fa-angle-right me-2"></span>Sign Up</a>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </nav>

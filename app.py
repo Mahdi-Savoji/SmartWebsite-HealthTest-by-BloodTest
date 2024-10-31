@@ -112,11 +112,18 @@ def home():
 
 @app.route("/our-team")
 def our_team():
-    return render_template("our-team.html")
+    user = None
+    if "user_id" in session:
+        user = User.query.get(session["user_id"])
+    return render_template("our-team.html", user=user)
+
 
 @app.route("/our-activity")
 def our_activity():
-    return render_template("our-activity.html")  
+    user = None
+    if "user_id" in session:
+        user = User.query.get(session["user_id"])
+    return render_template("our-activity.html",user=user)  
 
 
 @app.route("/our-service")
