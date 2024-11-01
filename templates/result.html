@@ -30,6 +30,7 @@
 
     <!-- Template Stylesheet -->
     <link href="../static/css/style.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -88,18 +89,29 @@
 <div class="container-fluid">
     <div class="container py-5">
         <div class="text-center">
-            <h5 class="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block" style="border:2px solid #4F1E7B;">Result
+            <h5 class="mb-5 px-3 py-1 text-dark rounded-pill d-inline-block" style="border:2px solid #4F1E7B;">Result
                 Predicting Diabetes</h5>
         </div>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="alert-container">
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
+
+        <div class="row gx-5">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="bg-white text-center rounded">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="alert-container">
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
                 </div>
-            {% endif %}
-        {% endwith %}
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+
+
         <div class="row gx-5">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
@@ -110,15 +122,25 @@
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>Gender:</strong> <span id="gender">{{ gender }}</span></li>
+                                <li class="list-group-item"><strong>Gender:</strong> <span
+                                        id="gender">{{ gender }}</span></li>
                                 <li class="list-group-item"><strong>Age:</strong> <span id="age">{{ age }}</span></li>
                                 <li class="list-group-item"><strong>BMI:</strong> <span id="bmi">{{ bmi }}</span></li>
-                                <li class="list-group-item"><strong>Cholesterol:</strong> <span id="chol">{{ chol }}</span> mg/dL</li>
-                                <li class="list-group-item"><strong>Triglycerides:</strong> <span id="tg">{{ tg }}</span> mg/dL</li>
-                                <li class="list-group-item"><strong>HDL:</strong> <span id="hdl">{{ hdl }}</span> mg/dL</li>
-                                <li class="list-group-item"><strong>LDL:</strong> <span id="ldl">{{ ldl }}</span> mg/dL</li>
-                                <li class="list-group-item"><strong>Creatinine:</strong> <span id="cr">{{ cr }}</span> mg/dL</li>
-                                <li class="list-group-item"><strong>BUN:</strong> <span id="bun">{{ bun }}</span> mg/dL</li>
+                                <li class="list-group-item"><strong>Cholesterol:</strong> <span
+                                        id="chol">{{ chol }}</span> mg/dL
+                                </li>
+                                <li class="list-group-item"><strong>Triglycerides:</strong> <span
+                                        id="tg">{{ tg }}</span> mg/dL
+                                </li>
+                                <li class="list-group-item"><strong>HDL:</strong> <span id="hdl">{{ hdl }}</span> mg/dL
+                                </li>
+                                <li class="list-group-item"><strong>LDL:</strong> <span id="ldl">{{ ldl }}</span> mg/dL
+                                </li>
+                                <li class="list-group-item"><strong>Creatinine:</strong> <span id="cr">{{ cr }}</span>
+                                    mg/dL
+                                </li>
+                                <li class="list-group-item"><strong>BUN:</strong> <span id="bun">{{ bun }}</span> mg/dL
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -129,11 +151,16 @@
                         <div class="card-body">
                             {% if prediction == "No" %}
                                 <p class="text-center small" id="diagnosisNo">
-                                    "No, Your test results do not indicate diabetes at this time. However, it's important to maintain a healthy lifestyle and continue regular check-ups with your healthcare provider. If you have any concerns, don't hesitate to consult a medical professional."
+                                    "No, Your test results do not indicate diabetes at this time. However, it's
+                                    important to maintain a healthy lifestyle and continue regular check-ups with your
+                                    healthcare provider. If you have any concerns, don't hesitate to consult a medical
+                                    professional."
                                 </p>
                             {% else %}
                                 <p class="text-center small" id="diagnosisYes">
-                                    "Yes, Your test results indicate a high likelihood of diabetes. Please consult your healthcare provider as soon as possible for a proper diagnosis and to discuss next steps. Early detection and management are crucial for your health."
+                                    "Yes, Your test results indicate a high likelihood of diabetes. Please consult your
+                                    healthcare provider as soon as possible for a proper diagnosis and to discuss next
+                                    steps. Early detection and management are crucial for your health."
                                 </p>
                             {% endif %}
                         </div>
@@ -145,7 +172,6 @@
     </div>
 </div>
 <!-- Result of Predicting Diabetes Data Information End -->
-
 
 
 <!-- Footer Start -->

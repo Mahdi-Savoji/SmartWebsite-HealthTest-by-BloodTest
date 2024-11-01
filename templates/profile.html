@@ -118,27 +118,29 @@
 <div class="container-fluid">
     <div class="container pb-5">
         <div class="text-center mb-5">
-            <h5 class="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block" style="border:2px solid #4F1E7B;">Profile</h5>
-            <h1 class="display-5 w-50 mx-auto">Hello Dear, Your Account information here.</h1>
+            <h5 class="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block" style="border:2px solid #4F1E7B;">
+                Profile</h5>
+            <h1 class="display-5 w-50 mx-auto">Hello Dear, Your Account Information Is Here.</h1>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div id="flashMessage">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
         </div>
         <div class="row g-5">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
                     <div class="card-header bg-primary text-white text-center">
-                        {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                          <div id="flashMessage">
-                            {% for category, message in messages %}
-                              <div class="alert alert-{{ category }}">{{ message }}</div>
-                            {% endfor %}
-                          </div>
-                        {% endif %}
-                      {% endwith %}
                         <h3 class="card-title mb-0">User Profile</h3>
                     </div>
                     <div class="card-body">
                         <div class="text-center mb-4">
-                            <img src="../static/img/team.jpg" alt="Profile Picture" class="rounded-circle img-thumbnail" width="150">
+                            <img src="../static/img/team.jpg" alt="Profile Picture" class="rounded-circle img-thumbnail"
+                                 width="150">
                         </div>
                         <form method="POST" action="{{ url_for('profile') }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -147,19 +149,27 @@
                                     <i class="fas fa-user me-2"></i>
                                     <strong>Full Name:</strong>
                                     <span id="fullName" class="editable-field">{{ user.fullname }}</span>
-                                    <input type="text" name="fullname" value="{{ user.fullname }}" class="edit-input d-none">
+                                    <input type="text" name="fullname" value="{{ user.fullname }}"
+                                           class="my-3 form-control edit-input d-none" maxlength="100" required>
                                 </li>
                                 <li class="list-group-item">
                                     <i class="fas fa-envelope me-2"></i>
                                     <strong>Email:</strong>
                                     <span id="email" class="editable-field">{{ user.email }}</span>
-                                    <input type="email" name="email" value="{{ user.email }}" class="edit-input d-none">
+                                    <input type="email" name="email" value="{{ user.email }}"
+                                           class="my-4 form-control edit-input d-none"
+                                           oninvalid="this.setCustomValidity('Please enter a valid email.')"
+                                           oninput="this.setCustomValidity('')"
+                                           pattern="^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
                                 </li>
                             </ul>
                             <div class="text-center mt-3">
+                                <a href="/history" class="btn btn-primary mx-1" onclick="toggleEditMode()">My History</a>
                                 <button type="button" class="btn btn-primary mx-1" onclick="toggleEditMode()">Edit Profile</button>
+                                <button type="button" class="btn btn-danger mx-1 d-none cancel-btn"
+                                        onclick="toggleEditMode(true)">Cancel
+                                </button>
                                 <button type="submit" class="btn btn-success mx-1 d-none save-btn">Save Changes</button>
-                                <button type="button" class="btn btn-secondary mx-1 d-none cancel-btn" onclick="toggleEditMode(true)">Cancel</button>
                             </div>
                         </form>
                     </div>
@@ -175,9 +185,15 @@
     <div class="container pb-5">
         <div class="row g-5">
             <div class="col-lg-6 col-md-6">
-                <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">M10PS Laboratory</h4>
+                <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">
+                    M10PS Laboratory</h4>
                 <p class="mb-4" style="text-align: justify;">
-                    At M10px Laboratory, we are committed to revolutionizing healthcare through advanced AI and machine learning technologies. Our innovative solutions empower individuals and healthcare professionals to predict and manage various health conditions effectively. With a focus on early detection and personalized care, we strive to enhance health outcomes and improve lives. Join us on our journey toward a healthier future. Feel free to adjust any part of the text to better align with your brand's voice!
+                    At M10px Laboratory, we are committed to revolutionizing healthcare through advanced AI and machine
+                    learning technologies. Our innovative solutions empower individuals and healthcare professionals to
+                    predict and manage various health conditions effectively. With a focus on early detection and
+                    personalized care, we strive to enhance health outcomes and improve lives. Join us on our journey
+                    toward a healthier future. Feel free to adjust any part of the text to better align with your
+                    brand's voice!
                 </p>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -186,7 +202,8 @@
                 <div class="d-flex flex-column justify-content-start">
                     <a class="text-light mb-2" href="/"><i class="fa fa-angle-right me-2"></i>Home</a>
                     <a class="text-light mb-2" href="/our-activity"><i class="fa fa-angle-right me-2"></i>Profile</a>
-                    <a class="text-light mb-2" href="/our-service"><i class="fa fa-angle-right me-2"></i>Our Services</a>
+                    <a class="text-light mb-2" href="/our-service"><i class="fa fa-angle-right me-2"></i>Our
+                        Services</a>
                     <a class="text-light mb-2" href="/our-team"><i class="fa fa-angle-right me-2"></i>Our Team</a>
                     <a class="text-light mb-2" href="/login"><i class="fa fa-angle-right me-2"></i>Sign In</a>
                     <a class="text-light" href="/register"><i class="fa fa-angle-right me-2"></i>Sign up</a>
