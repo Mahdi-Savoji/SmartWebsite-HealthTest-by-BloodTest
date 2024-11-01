@@ -104,8 +104,8 @@ def home():
     login_success = session.pop('login_success', None)
     
     user = None
-    if "username" in session:
-        user = User.query.filter_by(username=session["username"]).first()
+    if "user_id" in session:
+        user = User.query.get(session["user_id"])
     
     return render_template("index.html", user=user, login_success=login_success)
 
