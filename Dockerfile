@@ -9,6 +9,6 @@ RUN apt-get update && apt-get install -y libgomp1 && rm -rf /var/lib/apt/lists/*
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5001
+EXPOSE 5000
 
 CMD [ "python", "app.py" ]
